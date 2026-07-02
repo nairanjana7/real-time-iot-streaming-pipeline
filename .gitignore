@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+.env
+*.log
+.streamlit/
+
+# Kafka binaries
+kafka_2.13-4.3.1/
+kafka_2.13-4.3.1.tgz
+*.tgz
