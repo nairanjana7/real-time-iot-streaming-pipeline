@@ -1,0 +1,61 @@
+.main {
+
+    background: #F8FAFC;
+
+}
+
+/* KPI Cards */
+
+[data-testid="stMetric"]{
+
+background:white;
+
+padding:18px;
+
+border-radius:14px;
+
+border:1px solid #E5E7EB;
+
+box-shadow:0px 3px 8px rgba(0,0,0,0.05);
+
+}
+
+/* Card */
+
+.machine-card{
+
+background:white;
+
+padding:20px;
+
+border-radius:14px;
+
+border:1px solid #E5E7EB;
+
+margin-bottom:18px;
+
+box-shadow:0px 3px 8px rgba(0,0,0,0.05);
+
+}
+
+/* Sidebar */
+
+section[data-testid="stSidebar"]{
+
+background:#FFFFFF;
+
+}
+
+/* Hide Streamlit Footer */
+
+footer{
+
+visibility:hidden;
+
+}
+
+#MainMenu{
+
+visibility:hidden;
+
+}
