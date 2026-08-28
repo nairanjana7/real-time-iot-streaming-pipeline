@@ -3,12 +3,15 @@ import pandas as pd
 import json
 import time
 
-producer = KafkaProducer(
-    bootstrap_servers="localhost:9092",
-    value_serializer=lambda v: json.dumps(v).encode("utf-8")
+from backend.core.kafka_config import (
+    KAFKA_BOOTSTRAP_SERVERS,
+    KAFKA_TOPIC,
 )
 
-TOPIC = "esp32-data"
+producer = KafkaProducer(
+    bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
+    value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+)
 
 df = pd.read_csv(
     "data/ai4i+2020+predictive+maintenance+dataset/ai4i2020.csv"
@@ -26,10 +29,10 @@ while True:
             "Process temperature [K]": float(row["Process temperature [K]"]),
             "Rotational speed [rpm]": int(row["Rotational speed [rpm]"]),
             "Torque [Nm]": float(row["Torque [Nm]"]),
-            "Tool wear [min]": int(row["Tool wear [min]"])
+            "Tool wear [min]": int(row["Tool wear [min]"]),
         }
 
-        producer.send(TOPIC, payload)
+        producer.send(KAFKA_TOPIC, payload)
 
         print(payload)
 

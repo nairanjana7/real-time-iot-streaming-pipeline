@@ -1,23 +1,37 @@
 from fastapi import FastAPI
 
-from backend.routes import auth
-from backend.routes import telemetry
-from backend.routes import prediction
-from backend.routes import system
+from fastapi.middleware.cors import CORSMiddleware
+from backend.routes.auth import router as auth_router
+from backend.routes.user import router as user_router
+from backend.routes.machines import router as machine_router
+from backend.routes.prediction import router as prediction_router
+from backend.routes.telemetry import router as telemetry_router
 
 app = FastAPI(
-    title="PredictGuard AI API",
-    description="Real-Time Predictive Maintenance Platform",
-    version="1.0.0"
+    title="PredictGuard AI Platform",
+    version="1.0.0",
 )
 
-app.include_router(auth.router)
-app.include_router(telemetry.router)
-app.include_router(prediction.router)
-app.include_router(system.router)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(auth_router)
+app.include_router(user_router)
+app.include_router(prediction_router)
+app.include_router(machine_router)
+app.include_router(telemetry_router)
+
 
 @app.get("/")
-def home():
+def root():
     return {
         "message": "PredictGuard AI Backend Running"
     }

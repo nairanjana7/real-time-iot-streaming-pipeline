@@ -4,9 +4,9 @@ from fastapi import APIRouter
 
 from ml.config import MODEL_NAME, MODEL_VERSION
 
-from backend.models.telemetry_request import TelemetryRequest
+from backend.schemas.telemetry_request import TelemetryRequest
 
-from backend.models.prediction_response import (
+from backend.schemas.prediction_response import (
     PredictionResponse,
     PredictionResult,
     ExplanationResult,

@@ -1,10 +1,7 @@
 import socket
 
 from backend.config import STREAMING_BACKEND
-
-
-KAFKA_HOST = "localhost"
-KAFKA_PORT = 9092
+from backend.core.kafka_config import KAFKA_BOOTSTRAP_SERVERS
 
 
 def get_streaming_status():
@@ -13,11 +10,14 @@ def get_streaming_status():
 
     if backend.lower() == "kafka":
 
+        host, port = KAFKA_BOOTSTRAP_SERVERS.rsplit(":", 1)
+        port = int(port)
+
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(1)
 
         try:
-            sock.connect((KAFKA_HOST, KAFKA_PORT))
+            sock.connect((host, port))
             status = "connected"
 
         except Exception:
@@ -28,10 +28,10 @@ def get_streaming_status():
 
         return {
             "backend": backend,
-            "status": status
+            "status": status,
         }
 
     return {
         "backend": backend,
-        "status": "unknown"
+        "status": "unknown",
     }
