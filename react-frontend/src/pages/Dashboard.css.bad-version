@@ -1,0 +1,405 @@
+/* ================================
+   PREDICTGUARD — DASHBOARD
+   ================================ */
+
+.dashboard {
+  min-height: 100vh;
+  background: #f6f8fb;
+  color: #172033;
+}
+
+/* ---------- Sidebar ---------- */
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 238px;
+  background: #ffffff;
+  border-right: 1px solid #e7ebf1;
+  padding: 26px 18px;
+  z-index: 20;
+}
+
+.brand {
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  padding: 0 12px 30px;
+}
+
+.plant-section {
+  margin-bottom: 28px;
+}
+
+.sidebar-label {
+  padding: 0 12px 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: #98a2b3;
+}
+
+.sidebar nav,
+.sidebar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 12px;
+  border-radius: 9px;
+  color: #667085;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.18s ease;
+}
+
+.sidebar a:hover {
+  background: #f3f5f8;
+  color: #172033;
+}
+
+.sidebar a.active {
+  background: #eef3ff;
+  color: #315bea;
+}
+
+/* ---------- Main ---------- */
+
+.dashboard-main {
+  margin-left: 238px;
+  min-width: 0;
+  padding: 34px clamp(20px, 4vw, 52px);
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -1px;
+}
+
+.dashboard-header p {
+  margin: 9px 0 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+.dashboard-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.dashboard-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #dfe4ec;
+  background: #ffffff;
+  color: #344054;
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+
+.dashboard-actions button:hover {
+  border-color: #bfc8d8;
+  background: #f9fafb;
+}
+
+/* ---------- Summary cards ---------- */
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.summary-card {
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e7ebf1;
+  border-radius: 14px;
+  padding: 21px;
+  box-shadow: 0 3px 14px rgba(16, 24, 40, 0.035);
+}
+
+.summary-card-label {
+  color: #667085;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.summary-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.8px;
+}
+
+/* ---------- Content cards ---------- */
+
+.dashboard-card {
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e7ebf1;
+  border-radius: 14px;
+  box-shadow: 0 3px 14px rgba(16, 24, 40, 0.035);
+  overflow: hidden;
+}
+
+.dashboard-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 21px 22px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.dashboard-card-header h2 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: -0.2px;
+}
+
+.dashboard-card-header p {
+  margin: 5px 0 0;
+  color: #667085;
+  font-size: 12px;
+}
+
+/* ---------- Table ---------- */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.table-wrapper th {
+  padding: 13px 16px;
+  background: #fafbfc;
+  border-bottom: 1px solid #edf0f4;
+  color: #98a2b3;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table-wrapper td {
+  padding: 17px 16px;
+  border-bottom: 1px solid #f0f2f5;
+  color: #344054;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.table-wrapper tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table-wrapper tbody tr:hover {
+  background: #fafcff;
+}
+
+.machine-name {
+  color: #172033;
+  font-weight: 750;
+}
+
+.machine-line {
+  margin-top: 4px;
+  color: #98a2b3;
+  font-size: 11px;
+}
+
+/* ---------- Status ---------- */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.45px;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.status-active,
+.status-normal {
+  color: #16794c;
+  background: #eaf8f1;
+}
+
+.status-warning,
+.status-warn {
+  color: #9a6700;
+  background: #fff7df;
+}
+
+.status-critical {
+  color: #c43232;
+  background: #fff0f0;
+}
+
+.status-unknown {
+  color: #667085;
+  background: #f2f4f7;
+}
+
+/* ---------- Telemetry values ---------- */
+
+.telemetry-value {
+  font-weight: 700;
+  color: #344054;
+}
+
+.telemetry-value.live {
+  color: #172033;
+}
+
+/* ---------- Empty / loading / error ---------- */
+
+.dashboard-error,
+.dashboard-empty,
+.dashboard-loading {
+  padding: 52px 24px;
+  text-align: center;
+}
+
+.dashboard-error h3,
+.dashboard-empty h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.dashboard-error p,
+.dashboard-empty p,
+.dashboard-loading p {
+  margin: 0;
+  color: #667085;
+  font-size: 13px;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: static;
+    width: auto;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid #e7ebf1;
+    padding: 16px;
+  }
+
+  .brand {
+    padding: 0 8px 16px;
+  }
+
+  .plant-section {
+    margin-bottom: 0;
+  }
+
+  .sidebar nav,
+  .sidebar-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .sidebar-label {
+    display: none;
+  }
+
+  .sidebar a {
+    min-height: 38px;
+  }
+
+  .dashboard-main {
+    margin-left: 0;
+    padding: 26px 20px 40px;
+  }
+}
+
+@media (max-width: 680px) {
+  .dashboard-main {
+    padding: 22px 14px 32px;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    margin-bottom: 22px;
+  }
+
+  .dashboard-actions {
+    width: 100%;
+  }
+
+  .dashboard-actions button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .summary-card {
+    padding: 17px;
+  }
+
+  .dashboard-card-header {
+    padding: 17px;
+  }
+
+  .table-wrapper table {
+    min-width: 680px;
+  }
+
+  .table-wrapper th,
+  .table-wrapper td {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

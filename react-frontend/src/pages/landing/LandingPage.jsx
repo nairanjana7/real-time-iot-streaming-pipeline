@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ArrowRight,
   CheckCircle2,
@@ -53,6 +54,7 @@ const industries = [
 
 function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({
@@ -91,8 +93,16 @@ function LandingPage() {
           </nav>
 
           <div className="nav-actions">
-            <button className="login-button">Login</button>
-            <button className="primary-button nav-cta">
+            <button
+		className="login-button"
+	        onClick={() => navigate("/login")}
+	      >
+	        Login
+             </button>
+            <button
+              className="primary-button nav-cta"
+              onClick={() => navigate("/signup")}
+            >
               Get Started
               <ArrowRight size={16} />
             </button>
@@ -130,10 +140,13 @@ function LandingPage() {
               </p>
 
               <div className="hero-actions">
-                <button className="primary-button large-button">
-                  Get Started
-                  <ArrowRight size={18} />
-                </button>
+               <button
+                 className="primary-button large-button"
+                 onClick={() => navigate("/signup")}
+               >
+                 Get Started
+                 <ArrowRight size={18} />
+               </button>
 
                 <button
                   className="secondary-button large-button"

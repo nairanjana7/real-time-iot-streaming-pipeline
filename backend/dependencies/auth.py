@@ -60,3 +60,57 @@ def get_current_user(
         )
 
     return user
+from backend.models.machine import Machine
+
+
+def get_current_machine(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db),
+):
+    api_key = credentials.credentials
+
+    machine = (
+        db.query(Machine)
+        .filter(Machine.device_api_key == api_key)
+        .first()
+    )
+
+    if machine is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid device API key",
+        )
+
+    return machine
+
+from backend.models.machine import Machine
+
+
+def get_current_machine(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: Session = Depends(get_db),
+):
+    """
+    Authenticate an IoT device using its machine-specific API key.
+
+    The API key determines which machine is sending the telemetry.
+    The client does not get to choose the machine_id.
+    """
+
+    device_api_key = credentials.credentials
+
+    machine = (
+        db.query(Machine)
+        .filter(
+            Machine.device_api_key == device_api_key
+        )
+        .first()
+    )
+
+    if machine is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid device API key",
+        )
+
+    return machine

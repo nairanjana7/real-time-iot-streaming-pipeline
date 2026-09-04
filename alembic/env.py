@@ -25,13 +25,9 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 from backend.database.database import Base
 
-from backend.database.models.company import Company
-from backend.database.models.user import User
-from backend.database.models.machine import Machine
-from backend.models.alert import Alert
-from backend.models.maintenance import Maintenance
-from backend.models.prediction import Prediction
-from backend.models.model_version import ModelVersion
+from backend.models.company import Company
+from backend.models.user import User
+from backend.models.machine import Machine
 
 target_metadata = Base.metadata
 

@@ -26,6 +26,7 @@ class MachineResponse(BaseModel):
     machine_type: Optional[str]
     location: Optional[str]
     status: str
+    device_api_key: Optional[str]
     installed_at: datetime
 
     class Config:

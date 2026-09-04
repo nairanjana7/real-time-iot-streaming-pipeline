@@ -4,8 +4,10 @@ import json
 
 from kafka import KafkaConsumer
 
+
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
+
 
 from backend.core.kafka_config import (
     KAFKA_BOOTSTRAP_SERVERS,
@@ -15,84 +17,123 @@ from backend.core.kafka_config import (
 from backend.services.ml_service import predict_machine
 
 
-consumer = KafkaConsumer(
-    KAFKA_TOPIC,
-    bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
-    auto_offset_reset="latest",
-    value_deserializer=lambda x: json.loads(x.decode("utf-8")),
-)
-
-print("\nML Consumer Started...\n")
-
-
 def normalize_telemetry(data):
     """
-    Convert AI4I Kafka telemetry format into the format
+    Convert AI4I-compatible Kafka telemetry into the format
     expected by the PredictGuard ML service.
+
+    The Random Forest was trained on the AI4I features.
+    Therefore voltage/current/heat and other physical sensor
+    fields are not passed to the model unless a future model
+    is explicitly trained to use them.
     """
 
     return {
         "type": data["Type"],
-        "air_temperature": data["Air temperature [K]"],
-        "process_temperature": data["Process temperature [K]"],
-        "rotational_speed": data["Rotational speed [rpm]"],
-        "torque": data["Torque [Nm]"],
-        "tool_wear": data["Tool wear [min]"],
+        "air_temperature": float(
+            data["Air temperature [K]"]
+        ),
+        "process_temperature": float(
+            data["Process temperature [K]"]
+        ),
+        "rotational_speed": int(
+            data["Rotational speed [rpm]"]
+        ),
+        "torque": float(
+            data["Torque [Nm]"]
+        ),
+        "tool_wear": int(
+            data["Tool wear [min]"]
+        ),
     }
 
 
-for message in consumer:
+def run_consumer():
 
-    data = message.value
+    consumer = KafkaConsumer(
+        KAFKA_TOPIC,
+        bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
+        auto_offset_reset="latest",
+        value_deserializer=lambda x: json.loads(
+            x.decode("utf-8")
+        ),
+    )
 
-    try:
+    print("\nML Consumer Started...\n")
 
-        telemetry = normalize_telemetry(data)
+    for message in consumer:
 
-        report = predict_machine(telemetry)
+        data = message.value
 
         print("=" * 70)
-
-        print("Incoming Telemetry")
+        print("Incoming Kafka Message")
         print(data)
-
         print()
 
-        print("Normalized Telemetry")
-        print(telemetry)
+        try:
 
-        print()
+            telemetry = normalize_telemetry(data)
 
-        print("Prediction")
-        print(report["prediction"])
+            print("Normalized ML Telemetry")
+            print(telemetry)
+            print()
 
-        print()
-
-        print("Machine Status")
-        print(report["machine_status"])
-
-        print()
-
-        print("Failure Probability")
-        print(f"{report['failure_probability'] * 100:.2f}%")
-
-        print()
-
-        print("Top Risk Factors")
-
-        for factor in report["top_risk_factors"]:
-            print(
-                f"• {factor['feature']} "
-                f"({factor['impact']})"
+            report = predict_machine(
+                telemetry
             )
 
-        print()
+            print("Prediction")
+            print(report["prediction"])
+            print()
 
-        print("Recommendation")
-        print(report["recommendation"])
+            print("Machine Status")
+            print(report["machine_status"])
+            print()
+
+            print("Failure Probability")
+            print(
+                f"{report['failure_probability'] * 100:.2f}%"
+            )
+            print()
+
+            print("Top Risk Factors")
+
+            for factor in report["top_risk_factors"]:
+
+                print(
+                    f"• {factor['feature']} "
+                    f"({factor['impact']}) "
+                    f"score={factor['score']}"
+                )
+
+            print()
+
+            print("Recommendation")
+            print(report["recommendation"])
+
+        except KeyError as e:
+
+            print(
+                "Skipping message: "
+                f"missing ML field {e}"
+            )
+
+        except (TypeError, ValueError) as e:
+
+            print(
+                "Skipping message: "
+                f"invalid ML field value: {e}"
+            )
+
+        except Exception as e:
+
+            print(
+                "ML Consumer Error:",
+                e
+            )
 
         print("=" * 70)
 
-    except Exception as e:
 
-        print("Consumer Error:", e)
+if __name__ == "__main__":
+    run_consumer()

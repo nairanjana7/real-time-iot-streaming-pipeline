@@ -18,6 +18,9 @@ class TelemetryService:
         point = (
             Point("telemetry")
             .tag("machine_id", str(request.machine_id))
+            .field("voltage", request.voltage)
+            .field("current", request.current)
+            .field("heat", request.heat)
             .field("temperature", request.temperature)
             .field("pressure", request.pressure)
             .field("humidity", request.humidity)

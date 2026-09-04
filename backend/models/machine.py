@@ -16,7 +16,10 @@ class Machine(Base):
         nullable=False
     )
 
-    machine_name = Column(String(100), nullable=False)
+    machine_name = Column(
+        String(100),
+        nullable=False
+    )
 
     serial_number = Column(
         String(100),
@@ -24,13 +27,24 @@ class Machine(Base):
         nullable=False
     )
 
-    machine_type = Column(String(100))
+    machine_type = Column(
+        String(100)
+    )
 
-    location = Column(String(150))
+    location = Column(
+        String(150)
+    )
 
     status = Column(
         String(30),
         default="Active"
+    )
+
+    device_api_key = Column(
+        String(100),
+        unique=True,
+        nullable=True,
+        index=True
     )
 
     installed_at = Column(

@@ -1,3 +1,5 @@
+import secrets
+
 from sqlalchemy.orm import Session
 
 from backend.models.machine import Machine
@@ -21,6 +23,11 @@ class MachineService:
                 "Machine serial already exists."
             )
 
+        # Generate a unique credential for this machine.
+        device_api_key = (
+            "pg_live_" + secrets.token_urlsafe(32)
+        )
+
         machine = Machine(
             company_id=user.company_id,
             machine_name=request.machine_name,
@@ -28,6 +35,7 @@ class MachineService:
             machine_type=request.machine_type,
             location=request.location,
             status="Active",
+            device_api_key=device_api_key,
         )
 
         db.add(machine)
