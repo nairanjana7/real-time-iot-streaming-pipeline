@@ -14,6 +14,13 @@ sys.path.append(os.getcwd())
 # access to the values within the .ini file in use.
 config = context.config
 
+# Use the database URL from the environment instead of a hard-coded local URL.
+if settings.DATABASE_URL:
+    config.set_main_option(
+        "sqlalchemy.url",
+        settings.DATABASE_URL.replace("%", "%%"),
+    )
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
@@ -24,6 +31,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from backend.database.database import Base
+from backend.core.config import settings
 
 from backend.models.company import Company
 from backend.models.user import User
