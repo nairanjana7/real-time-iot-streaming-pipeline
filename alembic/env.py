@@ -4,6 +4,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+from backend.core.config import settings
 
 import os
 import sys
@@ -31,7 +32,6 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from backend.database.database import Base
-from backend.core.config import settings
 
 from backend.models.company import Company
 from backend.models.user import User
